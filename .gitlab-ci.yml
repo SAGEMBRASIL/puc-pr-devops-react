@@ -1,0 +1,27 @@
+# Especifica a imagem Docker para executar a pipeline
+image: node:14
+
+# Define as etapas da pipeline
+stages:
+  - build
+  - test
+  - deploy
+
+# Etapa de construção da imagem Docker
+build:
+  stage: build
+  script:
+    - docker build -t asmendes183/app3 .
+
+# Etapa de teste da aplicação
+test:
+  stage: test
+  script:
+    - docker run asmendes183/app3 npm test
+
+# Etapa de implantação da aplicação
+deploy:
+  stage: deploy
+  script:
+    - docker login -u asmendes183 -p token123
+    - docker push asmendes183/app3
